@@ -1,3 +1,5 @@
+from typing import Dict, Any, List
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -11,7 +13,7 @@ router = APIRouter()
 @router.get("/me")
 async def get_my_organizations(
     db: AsyncSession = Depends(get_db), current_user=Depends(get_current_user)
-):
+) -> List[Dict[str, Any]]:
     org_service = OrganizationService(db)
     organizations = await org_service.get_user_organizations(current_user.id)
     return organizations

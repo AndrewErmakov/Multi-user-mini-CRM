@@ -50,7 +50,7 @@ app.include_router(analytics_router, prefix=f"{settings.API_V1_STR}/analytics", 
 
 
 @app.exception_handler(DomainException)
-async def domain_exception_handler(request: Request, exc: DomainException):
+async def domain_exception_handler(request: Request, exc: DomainException) -> JSONResponse:
     http_exception = map_domain_exception_to_http(exc)
     return JSONResponse(
         status_code=http_exception.status_code,
@@ -59,20 +59,10 @@ async def domain_exception_handler(request: Request, exc: DomainException):
 
 
 @app.on_event("startup")
-async def startup():
+async def startup() -> None:
     if not settings.TESTING:
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         logger.info("Database tables created")
     else:
         logger.info("Running in TESTING mode - skipping database table creation")
-
-
-@app.get("/")
-async def root():
-    return {"message": "Mini-CRM API"}
-
-
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
