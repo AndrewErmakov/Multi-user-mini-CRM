@@ -77,5 +77,5 @@ class TaskDueDateInPastException(ValidationException):
 
 class UserNotMemberOfOrganizationException(PermissionDeniedException):
     """Пользователь не является членом организации"""
-    
+
     pass
