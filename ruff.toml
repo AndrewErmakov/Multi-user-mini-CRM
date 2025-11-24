@@ -18,6 +18,19 @@ ignore = [
     "B904",
 ]
 
+exclude = [
+    "alembic/versions",
+    ".git",
+    "__pycache__",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    "venv",
+    "env",
+    ".env",
+    ".venv",
+]
+
 [isort]
 known-first-party = ["app"]
 
