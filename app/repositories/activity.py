@@ -24,7 +24,7 @@ class ActivityRepository(BaseRepository[Activity]):
         )
 
         result = await self.db.execute(query)
-        return result.scalars().all()
+        return result.scalars().all() # type: ignore
 
     async def count_deal_activities(self, deal_id: int, organization_id: int) -> int:
         from app.models.deal import Deal

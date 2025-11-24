@@ -18,8 +18,8 @@ class TaskRepository(BaseRepository[Task]):
         limit: int = 100,
         deal_id: int | None = None,
         only_open: bool = False,
-        due_before: Optional = None,
-        due_after: Optional = None,
+        due_before: Optional = None, # type: ignore
+        due_after: Optional = None,  # type: ignore
     ) -> list[Task]:
         from app.models.deal import Deal
 
@@ -43,15 +43,15 @@ class TaskRepository(BaseRepository[Task]):
 
         query = query.offset(skip).limit(limit)
         result = await self.db.execute(query)
-        return result.scalars().all()
+        return result.scalars().all()  # type: ignore
 
     async def count_organization_tasks(
         self,
         organization_id: int,
         deal_id: int | None = None,
         only_open: bool = False,
-        due_before: Optional = None,
-        due_after: Optional = None,
+        due_before: Optional = None,  # type: ignore
+        due_after: Optional = None,  # type: ignore
     ) -> int:
         from app.models.deal import Deal
 

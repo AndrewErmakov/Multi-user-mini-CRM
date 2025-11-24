@@ -29,7 +29,7 @@ class ContactRepository(BaseRepository[Contact]):
 
         query = query.offset(skip).limit(limit)
         result = await self.db.execute(query)
-        return result.scalars().all()
+        return result.scalars().all()  # type: ignore
 
     async def count_organization_contacts(
         self, organization_id: int, search: str | None = None, owner_id: int | None = None

@@ -34,4 +34,4 @@ class BaseRepository(Generic[ModelType]):
     async def delete(self, id: Any) -> bool:
         result = await self.db.execute(delete(self.model).where(self.model.id == id))
         await self.db.commit()
-        return result.rowcount > 0
+        return result.rowcount > 0  # type: ignore

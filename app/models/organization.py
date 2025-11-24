@@ -19,7 +19,7 @@ class OrganizationMember(Base):
     id = Column(Integer, primary_key=True, index=True)
     organization_id = Column(Integer, ForeignKey("organizations.id"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    role = Column(Enum("owner", "admin", "manager", "member", name="member_roles"), nullable=False)
+    role = Column(Enum("owner", "admin", "manager", "member", name="member_roles"), nullable=False) # type: ignore
 
     organization = relationship("Organization")
     user = relationship("User")

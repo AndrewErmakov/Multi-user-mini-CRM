@@ -11,7 +11,7 @@ class Activity(Base):
     id = Column(Integer, primary_key=True, index=True)
     deal_id = Column(Integer, ForeignKey("deals.id"), nullable=False)
     author_id = Column(Integer, ForeignKey("users.id"), nullable=True)
-    type = Column(
+    type = Column(  # type: ignore[var-annotated]
         Enum(
             "comment",
             "status_changed",

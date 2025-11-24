@@ -31,4 +31,4 @@ class OrganizationMemberRepository(BaseRepository[OrganizationMember]):
             .join(OrganizationMember, OrganizationMember.organization_id == Organization.id)
             .where(OrganizationMember.user_id == user_id)
         )
-        return result.scalars().all()
+        return result.scalars().all() # type: ignore

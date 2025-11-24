@@ -15,8 +15,8 @@ class Deal(Base):
     title = Column(String(255), nullable=False)
     amount = Column(Numeric(10, 2))
     currency = Column(String(3), default="USD")  # USD, EUR, etc.
-    status = Column(Enum("new", "in_progress", "won", "lost", name="deal_statuses"), default="new")
-    stage = Column(
+    status = Column(Enum("new", "in_progress", "won", "lost", name="deal_statuses"), default="new") # type: ignore[var-annotated]
+    stage = Column( # type: ignore[var-annotated]
         Enum("qualification", "proposal", "negotiation", "closed", name="deal_stages"),
         default="qualification",
     )

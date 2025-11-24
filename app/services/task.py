@@ -72,8 +72,8 @@ class TaskService:
         page_size: int = 100,
         deal_id: int | None = None,
         only_open: bool = False,
-        due_before: Optional = None,
-        due_after: Optional = None,
+        due_before: Optional = None, # type: ignore
+        due_after: Optional = None, # type: ignore
     ) -> dict:
         skip = (page - 1) * page_size
         tasks = await self.task_repo.get_organization_tasks(

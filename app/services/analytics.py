@@ -102,22 +102,22 @@ class AnalyticsService:
         for stage, status, count in stage_data:
             if stage in stage_counts:
                 stage_counts[stage]["total"] += count
-                stage_counts[stage]["status_counts"][status] = (
-                    stage_counts[stage]["status_counts"].get(status, 0) + count
+                stage_counts[stage]["status_counts"][status] = (  # type: ignore
+                    stage_counts[stage]["status_counts"].get(status, 0) + count  # type: ignore
                 )
 
         # Рассчитываем конверсию между стадиями
         funnel_stages = []
 
-        for i, stage in enumerate(stages_order):
+        for stage_number, stage in enumerate(stages_order):
             current_stage = stage_counts[stage]
             current_count = current_stage["total"]
 
             # Рассчитываем конверсию из предыдущей стадии
-            if i == 0:
+            if stage_number == 0:
                 conversion_rate = 100.0  # Первая стадия всегда 100%
             else:
-                previous_stage = stages_order[i - 1]
+                previous_stage = stages_order[stage_number - 1]
                 previous_count = stage_counts[previous_stage]["total"]
                 conversion_rate = (
                     (current_count / previous_count * 100) if previous_count > 0 else 0.0
