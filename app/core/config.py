@@ -1,6 +1,5 @@
 import os
 
-from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 
@@ -37,8 +36,6 @@ class Settings(BaseSettings):
     @property
     def redis_url(self) -> str:
         return self.TEST_REDIS_URL if self.TESTING else self.REDIS_URL
-
-    model_config = ConfigDict(env_file=".env")
 
 
 settings = Settings()
