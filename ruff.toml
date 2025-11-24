@@ -18,11 +18,9 @@ ignore = [
     "B904",
 ]
 
-# Настройки isort
 [isort]
 known-first-party = ["app"]
 
-# Настройки форматирования
 [format]
 quote-style = "double"
 indent-style = "space"

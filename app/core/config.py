@@ -31,11 +31,11 @@ class Settings(BaseSettings):
 
     @property
     def database_url(self) -> str:
-        return self.TEST_DATABASE_URL if self.TESTING else self.DATABASE_URL
+        return self.DATABASE_URL
 
     @property
     def redis_url(self) -> str:
-        return self.TEST_REDIS_URL if self.TESTING else self.REDIS_URL
+        return self.REDIS_URL
 
 
 settings = Settings()
