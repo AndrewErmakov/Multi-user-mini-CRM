@@ -1,0 +1,12 @@
+skips:
+  - B101
+  - B601
+  - B106
+
+exclude_dirs:
+  - "*/tests/"
+  - "*/migrations/"
+  - "*/__pycache__/"
+
+targets:
+  - "app/"
