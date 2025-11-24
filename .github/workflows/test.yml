@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      TEST_DATABASE_URL: "postgresql+asyncpg://test_user:test_password@localhost:5433/test_crm_db"
+      DATABASE_URL: "postgresql+asyncpg://user:password@db:5432/crm_db"
       SECRET_KEY: "test-secret-key"
       TESTING: "true"
 
@@ -32,19 +32,19 @@ jobs:
 
     - name: Start test containers
       run: |
-        docker compose -f docker-compose.test.yml up -d
+        docker compose up -d
 
     - name: Wait for PostgreSQL to be ready
       run: |
-        timeout 60s bash -c 'until docker compose -f docker-compose.test.yml exec -T test_db pg_isready -U test_user -d test_crm_db; do sleep 2; done'
+        timeout 60s bash -c 'until docker compose exec -T db pg_isready -U user -d crm_db; do sleep 2; done'
 
     - name: Wait for Redis to be ready
       run: |
-        timeout 30s bash -c 'until docker compose -f docker-compose.test.yml exec -T test_redis redis-cli ping | grep -q PONG; do sleep 2; done'
+        timeout 30s bash -c 'until docker compose exec -T redis redis-cli ping | grep -q PONG; do sleep 2; done'
 
     - name: Check containers status
       run: |
-        docker compose -f docker-compose.test.yml ps
+        docker compose ps
 
     - name: Run tests with script
       run: |
@@ -52,14 +52,14 @@ jobs:
         ./run_tests.sh
       env:
         TESTING: ${{ env.TESTING }}
-        TEST_DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+        TEST_DATABASE_URL: ${{ env.DATABASE_URL }}
         SECRET_KEY: ${{ env.SECRET_KEY }}
-        REDIS_URL: redis://localhost:6380
+        REDIS_URL: redis://localhost:6379
 
     - name: Stop containers
       if: always()
       run: |
-        docker compose -f docker-compose.test.yml down
+        docker compose down
 
   lint:
     runs-on: ubuntu-latest
