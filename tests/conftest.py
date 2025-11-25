@@ -19,9 +19,7 @@ from tests.utils import create_test_token
 os.environ["TESTING"] = "True"
 
 # Тестовая база данных PostgreSQL
-TEST_DATABASE_URL = os.getenv(
-    "TEST_DATABASE_URL", "postgresql+asyncpg://test_user:test_password@localhost:5433/test_crm_db"
-)
+TEST_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://user:password@db:5432/crm_db")
 
 
 @pytest.fixture(scope="session")
@@ -107,7 +105,7 @@ async def wait_for_db():
     for i in range(30):
         try:
             conn = await asyncpg.connect(
-                "postgresql://test_user:test_password@localhost:5433/test_crm_db"
+                "postgresql://user:password@localhost:5432/crm_db"
             )
             await conn.close()
             print("✅ Test database is ready!")
