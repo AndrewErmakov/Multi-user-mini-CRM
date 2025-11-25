@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      TEST_DATABASE_URL: "postgresql+asyncpg://test_user:test_password@localhost:5433/test_crm_db"
+      DATABASE_URL: "test_user:test_password@localhost:5433/test_crm_db"
       SECRET_KEY: "test-secret-key"
       TESTING: "true"
 

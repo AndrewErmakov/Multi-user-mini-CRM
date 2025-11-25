@@ -34,13 +34,11 @@ def event_loop() -> Generator[asyncio.AbstractEventLoop, None, None]:
 
 @pytest_asyncio.fixture(scope="session")
 async def test_engine():
-    # Ждем пока БД будет готова
     await wait_for_db()
 
-    # Создаем engine для тестовой БД PostgreSQL с NullPool для изоляции
     engine = create_async_engine(
         TEST_DATABASE_URL,
-        poolclass=NullPool,  # Используем NullPool для полной изоляции тестов
+        poolclass=NullPool,
         echo=False,
     )
 
@@ -51,7 +49,6 @@ async def test_engine():
 
     yield engine
 
-    # Очищаем после тестов
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
 
@@ -73,14 +70,12 @@ async def test_session(test_engine) -> AsyncGenerator[AsyncSession, None]:
 
 @pytest.fixture
 def client(test_engine) -> Generator[TestClient, None, None]:
-    # Mock Redis для всех тестов
     mock_redis = AsyncMock()
     mock_redis.get = AsyncMock(return_value=None)
     mock_redis.setex = AsyncMock()
     mock_redis.delete = AsyncMock()
     mock_redis.keys = AsyncMock(return_value=[])
 
-    # Создаем новую сессию для каждого теста
     async_session = async_sessionmaker(test_engine, class_=AsyncSession, expire_on_commit=False)
 
     async def override_get_db():
@@ -101,7 +96,6 @@ def client(test_engine) -> Generator[TestClient, None, None]:
 
 
 async def wait_for_db():
-    """Ждем пока БД будет готова к подключению"""
     import asyncpg
 
     for i in range(30):
@@ -120,7 +114,6 @@ async def wait_for_db():
             await asyncio.sleep(2)
 
 
-# Обновленные фикстуры с короткими паролями
 @pytest.fixture
 def sample_user_data():
     return {"email": "test@example.com", "password": "Pass123", "name": "Test User"}
