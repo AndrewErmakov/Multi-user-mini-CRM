@@ -23,19 +23,19 @@ class Settings(BaseSettings):
 
     # Тестовые настройки
     TESTING: bool = os.getenv("TESTING", "False").lower() == "true"
-    # TEST_DATABASE_URL: str = os.getenv(
-    #     "TEST_DATABASE_URL",
-    #     "postgresql+asyncpg://test_user:test_password@localhost:5433/test_crm_db",
-    # )
-    # TEST_REDIS_URL: str = os.getenv("TEST_REDIS_URL", "redis://localhost:6380")
+    TEST_DATABASE_URL: str = os.getenv(
+        "TEST_DATABASE_URL",
+        "postgresql+asyncpg://test_user:test_password@localhost:5433/test_crm_db",
+    )
+    TEST_REDIS_URL: str = os.getenv("TEST_REDIS_URL", "redis://localhost:6380")
 
     @property
     def database_url(self) -> str:
-        return self.DATABASE_URL
+        return self.TEST_DATABASE_URL if self.TESTING else self.DATABASE_URL
 
     @property
     def redis_url(self) -> str:
-        return self.REDIS_URL
+        return self.TEST_REDIS_URL if self.TESTING else self.REDIS_URL
 
 
 settings = Settings()
