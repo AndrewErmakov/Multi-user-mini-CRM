@@ -101,7 +101,7 @@ async def wait_for_db():
     for i in range(30):
         try:
             conn = await asyncpg.connect(
-                "postgresql://user:password@localhost:5432/crm_db"
+                "postgresql://test_user:test_password@localhost:5433/test_crm_db"
             )
             await conn.close()
             print("✅ Test database is ready!")
@@ -114,7 +114,6 @@ async def wait_for_db():
             await asyncio.sleep(2)
 
 
-# Обновленные фикстуры с короткими паролями
 @pytest.fixture
 def sample_user_data():
     return {"email": "test@example.com", "password": "Pass123", "name": "Test User"}
